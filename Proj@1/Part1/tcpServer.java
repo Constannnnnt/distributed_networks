@@ -31,7 +31,7 @@ public class tcpServer {
         System.out.println("pass 2");
 
         int data = -1;
-        while ((data = in.read()) != -1) {
+        if ((data = in.read()) != -1) {
             System.out.println("\r\nMessage from " + clientAddress + ": " + data);
         }
         System.out.println("pass 3");
