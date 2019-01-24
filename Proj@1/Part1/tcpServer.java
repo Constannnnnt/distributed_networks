@@ -23,7 +23,7 @@ public class tcpServer {
         String clientAddress = client.getInetAddress().getHostAddress();
         System.out.println("\r\nNew connection from " + clientAddress);
 
-        DataInputStream in = new DataInputStream(client.getInputStream()));
+        DataInputStream in = new DataInputStream(client.getInputStream());
         DataOutputStream out = new DataOutputStream(client.getOutputStream());
 
         int len = in.readInt();
