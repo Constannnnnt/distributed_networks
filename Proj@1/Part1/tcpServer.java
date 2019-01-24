@@ -1,3 +1,4 @@
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -23,24 +24,17 @@ public class tcpServer {
         String clientAddress = client.getInetAddress().getHostAddress();
         System.out.println("\r\nNew connection from " + clientAddress);
 
-        DataInputStream in = new DataInputStream(client.getInputStream());
+        BufferedInputStream in = new BufferedInputStream(client.getInputStream());
+
         System.out.println("pass 1");
         DataOutputStream out = new DataOutputStream(client.getOutputStream());
         System.out.println("pass 2");
 
-        int len = in.readInt();
-        System.out.println("Len: " + len);
-        byte[] data = new byte[len];
-        if (len > 0) {
-            in.readFully(data);
-        }
-        System.out.println("pass 3");
-
-        if (data != null) {
+        int data = -1;
+        while ((data = in.read()) != -1) {
             System.out.println("\r\nMessage from " + clientAddress + ": " + data);
         }
-
-        System.out.println("pass 4");
+        System.out.println("pass 3");
 
         String ack = "ack";
         out.writeBytes(ack);
