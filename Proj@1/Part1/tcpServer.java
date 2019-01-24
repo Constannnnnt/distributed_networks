@@ -24,20 +24,29 @@ public class tcpServer {
         System.out.println("\r\nNew connection from " + clientAddress);
 
         DataInputStream in = new DataInputStream(client.getInputStream());
+        System.out.println("pass 1");
         DataOutputStream out = new DataOutputStream(client.getOutputStream());
+        System.out.println("pass 2");
 
         int len = in.readInt();
+        System.out.println("Len: " + len);
         byte[] data = new byte[len];
         if (len > 0) {
             in.readFully(data);
         }
+        System.out.println("pass 3");
 
         if (data != null) {
             System.out.println("\r\nMessage from " + clientAddress + ": " + data);
         }
 
+        System.out.println("pass 4");
+
         String ack = "ack";
         out.writeBytes(ack);
+
+        System.out.println("pass 5");
+
     }
 
     public InetAddress getSocketAddress() {

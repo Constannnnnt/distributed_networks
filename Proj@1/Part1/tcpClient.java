@@ -15,11 +15,17 @@ public class tcpClient {
         byte[] data = {(byte) 0x01};
 
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+
+        System.out.println("pass 1");
         out.write(data);
+        System.out.println("pass 2");
+
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        System.out.println("pass 3");
 
         String ack = in.readLine();
         System.out.println("FROM SERVER: " + ack);
+        System.out.println("pass 4");
 
         socket.close();
     }
