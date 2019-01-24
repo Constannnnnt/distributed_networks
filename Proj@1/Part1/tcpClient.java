@@ -12,7 +12,7 @@ public class tcpClient {
     }
 
     private void connect() throws Exception{
-        byte[] data = {127};
+        byte[] data = {(byte) 0x01};
 
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         out.write(data);

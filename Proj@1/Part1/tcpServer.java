@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -18,15 +19,20 @@ public class tcpServer {
     }
 
     private void listen() throws Exception {
-        String data = null;
         Socket client = this.server.accept();
         String clientAddress = client.getInetAddress().getHostAddress();
         System.out.println("\r\nNew connection from " + clientAddress);
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        DataInputStream in = new DataInputStream(client.getInputStream()));
         DataOutputStream out = new DataOutputStream(client.getOutputStream());
 
-        while ((data = in.readLine()) != null) {
+        int len = in.readInt();
+        byte[] data = new byte[len];
+        if (len > 0) {
+            in.readFully(data);
+        }
+
+        if (data != null) {
             System.out.println("\r\nMessage from " + clientAddress + ": " + data);
         }
 
