@@ -8,11 +8,11 @@ public class GRpcServiceImpl extends GRpcServiceGrpc.GRpcServiceImplBase {
     @Override
     public StreamObserver<DataRequest> sendData(final StreamObserver<DataResponse> responseObserver) {
         return new StreamObserver<DataRequest>() {
-            String result = "";
+            int result = 0;
 
             @Override
             public void onNext(DataRequest request) {
-                result += request.getData().toString();
+                result += 1;
             }
 
             @Override
@@ -21,7 +21,8 @@ public class GRpcServiceImpl extends GRpcServiceGrpc.GRpcServiceImplBase {
 
             @Override
             public void onCompleted() {
-                responseObserver.onNext(DataResponse.newBuilder().setAck("ack").build());
+                String ret = "Received " + str(result) + " data, Acks!";
+                responseObserver.onNext(DataResponse.newBuilder(ret).setAck().build());
                 responseObserver.onCompleted();
             }
         };

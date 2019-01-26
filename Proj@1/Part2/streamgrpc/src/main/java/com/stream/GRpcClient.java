@@ -56,7 +56,6 @@ public class GRpcClient {
 
             @Override
             public void onCompleted() {
-                System.out.println("Finished SendData");
                 latch.countDown();
             }
         };
@@ -66,9 +65,7 @@ public class GRpcClient {
             ByteString byteData = null;
             byteData = ByteString.copyFrom(data);
             DataRequest request = DataRequest.newBuilder().setData(byteData).build();
-            System.out.println("before sending request");
             requestObserver.onNext(request);
-            System.out.println("Sent request");
             if (latch.getCount() == 0) {
                 // RPC completed or errored before we finished sending.
                 // Sending further requests won't error, but they will just be thrown away.
@@ -78,23 +75,20 @@ public class GRpcClient {
             requestObserver.onError(r);
             throw r;
         }
-
         requestObserver.onCompleted();
-        System.out.println("Complete request");
-
-        // for (byte d : data) {
-        //     ByteString message = ByteString.copyFrom(data);
-        //     DataRequest request = DataRequest.newBuilder().setData(message).build();
-        //     requestStreamObserver.onNext(DataRequest.newBuilder().sendData(request).build());
-        // }
 
     }
 
     public static void main(String[] args) throws Exception, IOException {
         GRpcClient client = new GRpcClient(args[0], 50051);
         try {
-            byte[] data = {0x01};
-            client.sendData(data);
+            byte[] data = new byte[100000];
+            for (int i = 0; i < 100000; i++) {
+                data[i] = 0x01;
+            }
+            for (int i = 0; i < 100; i++) {
+                client.sendData(data);
+            }
         } finally {
             client.shutdown();
         }
