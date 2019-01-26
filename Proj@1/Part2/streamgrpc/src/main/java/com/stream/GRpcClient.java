@@ -68,8 +68,12 @@ public class GRpcClient {
         ByteString byteData = null;
         byteData = ByteString.copyFrom(data);
         DataRequest request = DataRequest.newBuilder().setData(byteData).build();
+        System.out.println("before sending request");
         requestStreamObserver.onNext(request);
+        System.out.println("Sent request");
         requestStreamObserver.onCompleted();
+        System.out.println("Complete request");
+
         // for (byte d : data) {
         //     ByteString message = ByteString.copyFrom(data);
         //     DataRequest request = DataRequest.newBuilder().setData(message).build();

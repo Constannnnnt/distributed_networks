@@ -1,5 +1,5 @@
 ## Run GRpcServer
-mvn -DskipTests package exec:java -Dexec.mainClass=com.stream.grpc.GRpcServer
+mvn -DskipTests package exec:java -Dexec.mainClass=com.stream.grpc.GRpcServer -q
 
 After Running the Server, Mark down the IP address `ipaddress` where the server is running
 

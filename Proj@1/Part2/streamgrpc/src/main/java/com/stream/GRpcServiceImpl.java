@@ -14,6 +14,7 @@ public class GRpcServiceImpl extends GRpcServiceGrpc.GRpcServiceImplBase {
             @Override
             public void onNext(DataRequest r) {
                 result = "ack";
+                System.out.println("ack");
             }
 
             @Override
