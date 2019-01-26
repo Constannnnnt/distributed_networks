@@ -21,7 +21,7 @@ public class GRpcServiceImpl extends GRpcServiceGrpc.GRpcServiceImplBase {
 
             @Override
             public void onCompleted() {
-                String ret = "Received " + str(result) + " data, Acks!";
+                String ret = "Received " + Integer.toString(result) + " data, Acks!";
                 responseObserver.onNext(DataResponse.newBuilder(ret).setAck().build());
                 responseObserver.onCompleted();
             }
