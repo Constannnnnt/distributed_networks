@@ -27,6 +27,9 @@ public class GRpcServiceImpl extends GRpcServiceGrpc.GRpcServiceImplBase {
                     .setAck(result)
                     .build()
                 );
+
+                System.out.println("gRpc Server Acks");
+
                 responseObserver.onCompleted();
             }
         };
