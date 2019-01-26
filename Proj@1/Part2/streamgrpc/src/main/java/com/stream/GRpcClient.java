@@ -40,38 +40,46 @@ public class GRpcClient {
 
     public void sendData(byte[] data) {
 
-        CountDownLatch latch = new CountDownLatch(1);
+        final CountDownLatch latch = new CountDownLatch(1);
 
-        StreamObserver<DataRequest> requestStreamObserver = stub
-            .sendData(new StreamObserver<DataResponse>() {
-                @Override
-                public void onNext(DataResponse value) {
-                    // We get a response from the server
-                    System.out.println("Received a response from the server: " + value.getAck());
-                    System.out.println(value.getAck());
-                    // On next will be called only once
-                }
+        StreamObserver<DataResponse> responseObserver = new StreamObserver<DataResponse>() {
+            @Override
+            public void onNext(DataResponse response) {
+                System.out.println(response.getAck());
+            }
 
-                @Override
-                public void onError(Throwable t) {
-                    // we get an error from server
-                }
+            public void onError(Throwable t) {
+                System.out.println("OnError");
+                t.printStackTrace();
+                latch.countDown();
+            }
 
-                @Override
-                public void onCompleted() {
-                    // The server is done sending us data
-                    // onCompleted will be called right after onNext()
-                    System.out.println("Server Acks");
-                    channel.shutdownNow();
-                }
-            });
-        ByteString byteData = null;
-        byteData = ByteString.copyFrom(data);
-        DataRequest request = DataRequest.newBuilder().setData(byteData).build();
-        System.out.println("before sending request");
-        requestStreamObserver.onNext(request);
-        System.out.println("Sent request");
-        requestStreamObserver.onCompleted();
+            @Override
+            public void onCompleted() {
+                System.out.println("Finished SendData");
+                latch.countDown();
+            }
+        };
+
+        StreamObserver<DataRequest> requestObserver = stub.sendData(responseObserver);
+        try {
+            ByteString byteData = null;
+            byteData = ByteString.copyFrom(data);
+            DataRequest request = DataRequest.newBuilder().setData(byteData).build();
+            System.out.println("before sending request");
+            requestObserver.onNext(request);
+            System.out.println("Sent request");
+            if (latch.getCount() == 0) {
+                // RPC completed or errored before we finished sending.
+                // Sending further requests won't error, but they will just be thrown away.
+                return;
+            }
+        } catch (RuntimeException r) {
+            requestObserver.onError(r);
+            throw r;
+        }
+
+        requestObserver.onCompleted();
         System.out.println("Complete request");
 
         // for (byte d : data) {

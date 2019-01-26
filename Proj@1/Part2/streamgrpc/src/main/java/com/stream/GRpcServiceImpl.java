@@ -7,33 +7,23 @@ import com.stream.grpc.GRpcServiceOuterClass.DataResponse;
 public class GRpcServiceImpl extends GRpcServiceGrpc.GRpcServiceImplBase {
     @Override
     public StreamObserver<DataRequest> sendData(final StreamObserver<DataResponse> responseObserver) {
-        // we create the requestObserver that we'll return in this function
-        StreamObserver<DataRequest> requestObserver = new StreamObserver<DataRequest>() {
+        return new StreamObserver<DataRequest>() {
             String result = "";
 
             @Override
-            public void onNext(DataRequest r) {
-                result = "ack";
-                System.out.println("ack");
+            public void onNext(DataRequest request) {
+                result += request.getData().toString();
             }
 
             @Override
-            public void onError(Throwable r) {
-
+            public void onError(Throwable t) {
             }
 
             @Override
             public void onCompleted() {
-                responseObserver.onNext(DataResponse.newBuilder()
-                    .setAck(result)
-                    .build()
-                );
-
-                System.out.println("gRpc Server Acks");
-
+                responseObserver.onNext(DataResponse.newBuilder().setAck("ack").build());
                 responseObserver.onCompleted();
             }
         };
-        return requestObserver;
     }
 }
