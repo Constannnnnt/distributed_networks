@@ -5,6 +5,7 @@ public class RabbitMqServer {
     private static final String RPC_QUEUE_NAME = "rpc_queue";
     public static void main(String[] args) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
+        System.out.println("Connection to the Rabbit Broker at " + args[0]);
         factory.setHost(args[0]); // Specifiy the address of the Broker
 
         try(Connection connection = factory.newConnection()) {
