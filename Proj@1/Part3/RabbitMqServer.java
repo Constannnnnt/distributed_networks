@@ -33,9 +33,8 @@ public class RabbitMqServer {
 
                 try {
                     String message = new String(delivery.getBody(), "UTF-8");
-                    int n = Integer.parseInt(message);
 
-                    count += n;
+                    count += 1;
                 } catch (RuntimeException e) {
                     System.out.println("[.] " + e.toString());
                 } finally {
