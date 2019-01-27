@@ -16,6 +16,8 @@ public class RabbitMqClient implements AutoCloseable {
 
     public RabbitMqClient(String ipaddress) throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
+        connectionFactory.setUsername("test");
+        connectionFactory.setPassword("test");
         factory.setHost(ipaddress);
 
         connection = factory.newConnection();
