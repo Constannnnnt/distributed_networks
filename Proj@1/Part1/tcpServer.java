@@ -29,6 +29,7 @@ public class tcpServer {
         System.out.println("\r\nMessage from " + clientAddress + ": " + Integer.toString(data));
         String ack = "ack";
         out.writeBytes(ack);
+        out.flush();
     }
 
     public InetAddress getSocketAddress() {
