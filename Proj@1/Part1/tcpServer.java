@@ -23,10 +23,10 @@ public class tcpServer {
         Socket client = this.server.accept();
         String clientAddress = client.getInetAddress().getHostAddress();
         System.out.println("\r\nNew connection from " + clientAddress);
-        BufferedInputStream in = new BufferedInputStream(client.getInputStream());
+        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         DataOutputStream out = new DataOutputStream(client.getOutputStream());
         int data = -1;
-        while ((data = in.read()) != -1) {
+        while ((data = Integer.parseInt(in.readLine())) != -1) {
             System.out.println("\r\nMessage from " + clientAddress + ": " + data);
             String ack = "ack";
             out.writeBytes(ack);
