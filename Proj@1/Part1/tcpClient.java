@@ -32,24 +32,22 @@ public class tcpClient {
         float totaltime = 0;
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        String ack = "";
-        int dataCyle = 100;
-
-        while (dataCyle > 0 && (ack = in.readLine()) != null) {
+        for (int i = 0; i < 100; i++) {
             long start = System.nanoTime();
-            System.out.println("FROM SERVER: " + ack);
+
             out.write(data);
+            String ack = in.readLine();
+            System.out.println("FROM SERVER: " + ack);
+
             long end = System.nanoTime();
             float duration = end - start;
-            time[dataCyle-1] = duration / 1000000000;
+            time[i] = duration / 1000000000;
             totaltime += duration / 1000000000;
-            dataCyle -=1;
         }
-
         System.out.println("Average Time: " + (totaltime / 100) + "seconds");
         float[] sortedTime = doInsertionSort(time);
-        System.out.println("10th Percentile: " + Float.toString(sortedTime[9]) + "seconds");
-        System.out.println("90th Percentile: " + Float.toString(sortedTime[89]) + "seconds");
+        System.out.println("10th Percentile: " + sortedTime[9] + "seconds");
+        System.out.println("90th Percentile: " + sortedTime[89] + "seconds");
 
         socket.close();
     }
