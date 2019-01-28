@@ -20,17 +20,15 @@ public class tcpServer {
     }
 
     private void listen() throws Exception {
-        while(true) {
-            Socket client = this.server.accept();
-            String clientAddress = client.getInetAddress().getHostAddress();
-            System.out.println("\r\nNew connection from " + clientAddress);
-            InputStreamReader in = new InputStreamReader(client.getInputStream());
-            DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            int data = in.read();
-            System.out.println("\r\nMessage from " + clientAddress + ": " + Integer.toString(data));
-            String ack = "ack";
-            out.writeBytes(ack);
-        }
+        Socket client = this.server.accept();
+        String clientAddress = client.getInetAddress().getHostAddress();
+        System.out.println("\r\nNew connection from " + clientAddress);
+        InputStreamReader in = new InputStreamReader(client.getInputStream());
+        DataOutputStream out = new DataOutputStream(client.getOutputStream());
+        int data = in.read();
+        System.out.println("\r\nMessage from " + clientAddress + ": " + Integer.toString(data));
+        String ack = "ack";
+        out.writeBytes(ack);
     }
 
     public InetAddress getSocketAddress() {
