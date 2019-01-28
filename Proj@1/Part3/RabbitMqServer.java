@@ -22,6 +22,7 @@ public class RabbitMqServer {
             System.out.println("[x] Awaiting RPC requests");
 
             Object monitor = new Object();
+
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 AMQP.BasicProperties replyProps = new AMQP.BasicProperties
                     .Builder()
@@ -29,16 +30,14 @@ public class RabbitMqServer {
                     .build();
 
                 String response = "";
-                int count = 0;
 
                 try {
                     String message = new String(delivery.getBody(), "UTF-8");
 
-                    count += 1;
                 } catch (RuntimeException e) {
                     System.out.println("[.] " + e.toString());
                 } finally {
-                    response = "Received the " + Integer.toString(count) + "th Ack";
+                    response = "Received the Ack";
                     channel.basicPublish("", delivery.getProperties().getReplyTo(), replyProps, response.getBytes("UTF-8"));
                     channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 
