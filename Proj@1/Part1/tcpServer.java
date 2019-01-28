@@ -20,13 +20,13 @@ public class tcpServer {
     }
 
     private void listen() throws Exception {
-        Socket client = this.server.accept();
-        String clientAddress = client.getInetAddress().getHostAddress();
-        System.out.println("\r\nNew connection from " + clientAddress);
-        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        DataOutputStream out = new DataOutputStream(client.getOutputStream());
-        int data = -1;
-        while ((data = Integer.parseInt(in.readLine())) != -1) {
+        while(true) {
+            Socket client = this.server.accept();
+            String clientAddress = client.getInetAddress().getHostAddress();
+            System.out.println("\r\nNew connection from " + clientAddress);
+            BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            DataOutputStream out = new DataOutputStream(client.getOutputStream());
+            int data = Integer.parseInt(in.readLine());
             System.out.println("\r\nMessage from " + clientAddress + ": " + data);
             String ack = "ack";
             out.writeBytes(ack);
