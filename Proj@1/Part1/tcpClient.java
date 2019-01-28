@@ -36,7 +36,7 @@ public class tcpClient {
         float totaltime = 0;
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 100; i++) {
             long start = System.nanoTime();
 
             out.write(data);

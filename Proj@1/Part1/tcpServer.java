@@ -52,8 +52,6 @@ public class tcpServer {
 
         System.out.println(
                 "\r\nRunning Server: " + "Host=" + app.getSocketAddress().getHostAddress() + " Port=" + app.getPort());
-        while (true) {
-            app.listen();
-        }
+        app.listen();
     }
 }
