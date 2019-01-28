@@ -24,10 +24,10 @@ public class tcpServer {
             Socket client = this.server.accept();
             String clientAddress = client.getInetAddress().getHostAddress();
             System.out.println("\r\nNew connection from " + clientAddress);
-            InputStreamReader in = new InputStreamReader(client.getInputStream()));
+            InputStreamReader in = new InputStreamReader(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             int data = in.read();
-            System.out.println("\r\nMessage from " + clientAddress + ": " + Integer.parseInt(data));
+            System.out.println("\r\nMessage from " + clientAddress + ": " + Integer.toString(data));
             String ack = "ack";
             out.writeBytes(ack);
         }
