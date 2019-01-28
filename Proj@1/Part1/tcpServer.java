@@ -24,17 +24,15 @@ public class tcpServer {
         String clientAddress = client.getInetAddress().getHostAddress();
         System.out.println("\r\nNew connection from " + clientAddress);
 
-        while (true) {
-            BufferedInputStream in = new BufferedInputStream(client.getInputStream());
-            DataOutputStream out = new DataOutputStream(client.getOutputStream());
+        BufferedInputStream in = new BufferedInputStream(client.getInputStream());
+        DataOutputStream out = new DataOutputStream(client.getOutputStream());
 
-            int data = -1;
-            if ((data = in.read()) != -1) {
-                System.out.println("\r\nMessage from " + clientAddress + ": " + data);
-                String ack = "ack";
-                out.writeBytes(ack);
-            }
+        int data = -1;
+        if ((data = in.read()) != -1) {
+            System.out.println("\r\nMessage from " + clientAddress + ": " + data);
         }
+        String ack = "ack";
+        out.writeBytes(ack);
     }
 
     public InetAddress getSocketAddress() {
