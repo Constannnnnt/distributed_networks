@@ -23,10 +23,9 @@ public class tcpServer {
         Socket client = this.server.accept();
         String clientAddress = client.getInetAddress().getHostAddress();
         System.out.println("\r\nNew connection from " + clientAddress);
+        BufferedInputStream in = new BufferedInputStream(client.getInputStream());
+        DataOutputStream out = new DataOutputStream(client.getOutputStream());
         while (true) {
-            BufferedInputStream in = new BufferedInputStream(client.getInputStream());
-            DataOutputStream out = new DataOutputStream(client.getOutputStream());
-
             int data = -1;
             if ((data = in.read()) != -1) {
                 System.out.println("\r\nMessage from " + clientAddress + ": " + data);
