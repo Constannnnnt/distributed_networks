@@ -30,10 +30,9 @@ public class tcpServer {
         int data = -1;
         if ((data = in.read()) != -1) {
             System.out.println("\r\nMessage from " + clientAddress + ": " + data);
+            String ack = "ack";
+            out.writeBytes(ack);
         }
-
-        String ack = "ack";
-        out.writeBytes(ack);
 
     }
 
