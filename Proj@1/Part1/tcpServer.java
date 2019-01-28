@@ -26,7 +26,7 @@ public class tcpServer {
             System.out.println("\r\nNew connection from " + clientAddress);
             BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            int data = Integer.parseInt(in.readLine());
+            String data = in.readLine();
             System.out.println("\r\nMessage from " + clientAddress + ": " + data);
             String ack = "ack";
             out.writeBytes(ack);
