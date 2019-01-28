@@ -6,6 +6,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class tcpServer {
 
@@ -23,14 +25,24 @@ public class tcpServer {
         Socket client = this.server.accept();
         String clientAddress = client.getInetAddress().getHostAddress();
         System.out.println("\r\nNew connection from " + clientAddress);
-        InputStreamReader in = new InputStreamReader(client.getInputStream());
-        DataOutputStream out = new DataOutputStream(client.getOutputStream());
-        int data = -1;
-        if ((data = in.read()) != -1) {
-            System.out.println("Enter");
-            System.out.println("\r\nMessage from " + clientAddress + ": " + Integer.toString(data));
+        BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        // DataOutputStream out = new DataOutputStream(client.getOutputStream());
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(client.getOutputStream()));
+
+        // int data = -1;
+        // if ((data = in.read()) != -1) {
+        //     System.out.println("\r\nMessage from " + clientAddress + ": " + Integer.toString(data));
+        //     String ack = "ack";
+        //     out.writeBytes(ack);
+        // }
+        String data;
+        while ((data = in.readLine()) != null) {
+            System.out.println("\r\nMessage from " + clientAddress + ": " + data);
+            // process
             String ack = "ack";
-            out.writeBytes(ack);
+            // write out line to socket
+            out.print(ack);
+            out.flush();
         }
     }
 

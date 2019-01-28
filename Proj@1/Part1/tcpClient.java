@@ -53,7 +53,6 @@ public class tcpClient {
         System.out.println("10th Percentile: " + sortedTime[9] + "seconds");
         System.out.println("90th Percentile: " + sortedTime[89] + "seconds");
 
-        socket.close();
     }
 
     public static void main(String[] args) throws Exception {
