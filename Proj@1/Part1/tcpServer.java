@@ -27,7 +27,7 @@ public class tcpServer {
             InputStreamReader in = new InputStreamReader(client.getInputStream());
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             int data = -1;
-            while ((data = in.read()) != -1) {
+            if ((data = in.read()) != -1) {
                 System.out.println("Enter");
                 System.out.println("\r\nMessage from " + clientAddress + ": " + Integer.toString(data));
                 String ack = "ack";

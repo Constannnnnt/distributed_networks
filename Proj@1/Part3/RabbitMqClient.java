@@ -71,11 +71,11 @@ public class RabbitMqClient implements AutoCloseable {
         float totaltime = 0;
         try(RabbitMqClient client = new RabbitMqClient(args[0])) {
             int size = 100;
-            byte[] data = {0x01};
-            // byte[] data = new byte[10 * 1024 * 1024];
-            // for (int i = 0; i < 10 * 1024 * 1024; i++) {
-            //     data[i] = 0x01;
-            // }
+            // byte[] data = {0x01};
+            byte[] data = new byte[10 * 1024 * 1024];
+            for (int i = 0; i < 10 * 1024 * 1024; i++) {
+                data[i] = 0x01;
+            }
             for (int i = 0; i< size; i ++) {
                 String stringData = new String(data);
                 System.out.println(" [x] Sending Data");
