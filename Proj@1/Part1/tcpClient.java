@@ -28,11 +28,15 @@ public class tcpClient {
 
     private void connect() throws Exception{
         byte[] data = {(byte) 0x01};
+        // byte[] data = new byte[10 * 1024 * 1024];
+        // for (int i  = 0; i < 10240; i++) {
+        //     data[i] = 0x01;
+        // }
         float[] time = new float[100];
         float totaltime = 0;
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1; i++) {
             long start = System.nanoTime();
 
             out.write(data);
