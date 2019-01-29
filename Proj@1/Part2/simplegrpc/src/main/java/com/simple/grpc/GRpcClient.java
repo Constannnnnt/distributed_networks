@@ -68,14 +68,14 @@ public class GRpcClient {
         float[] time = new float[100];
         float totaltime = 0;
         try {
-            // byte[] data = {0x01};
+            byte[] data = {0x01};
             // client.sendData(data);
             int size = 100;
             // byte[] data = {0x01};
-            byte[] data = new byte[10 * 1024 * 1024];
-            for (int i = 0; i < 10 * 1024 * 1024; i++) {
-                data[i] = 0x01;
-            }
+            // byte[] data = new byte[10 * 1024 * 1024];
+            // for (int i = 0; i < 10 * 1024 * 1024; i++) {
+            //     data[i] = 0x01;
+            // }
             for (int i = 0; i < size; i++) {
                 String stringData = new String(data);
                 System.out.println(" [x] Sending Data");

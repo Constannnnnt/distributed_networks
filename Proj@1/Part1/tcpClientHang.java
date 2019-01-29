@@ -54,11 +54,11 @@ public class tcpClientHang {
     public static void main(String[] args) throws Exception {
         float[] time = new float[100];
         float totaltime = 0;
-        tcpClientHang client = new tcpClientHang(InetAddress.getByName(args[0]), Integer.parseInt(args[1]));
 
-        System.out.println("\r\nConnected to Server: " + client.socket.getInetAddress());
         for (int i = 0; i < 100; i++) {
+            tcpClientHang client = new tcpClientHang(InetAddress.getByName(args[0]), Integer.parseInt(args[1]));
 
+            System.out.println("\r\nConnected to Server: " + client.socket.getInetAddress());
             long start = System.nanoTime();
 
             client.connect();
