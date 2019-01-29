@@ -56,11 +56,11 @@ public class tcpClient {
         // System.out.println("10th Percentile: " + sortedTime[9] + "seconds");
         // System.out.println("90th Percentile: " + sortedTime[89] + "seconds");
         try {
-            // byte[] data = {1};
-            byte[] data = new byte[10 * 1024 * 1024];
-            for (int i = 0; i < 10240; i++) {
-                data[i] = 0x01;
-            }
+            byte[] data = {0x01};
+            // byte[] data = new byte[10 * 1024 * 1024];
+            // for (int i = 0; i < 10 * 1024 * 1024; i++) {
+            //     data[i] = 0x01;
+            // }
             float[] time = new float[100];
             float totaltime = 0;
 
@@ -70,7 +70,7 @@ public class tcpClient {
 
                 long start = System.nanoTime();
 
-                toServer.print(new String(data));
+                toServer.println(new String(data));
                 String ack = fromServer.readLine();
                 System.out.println("FROM SERVER: " + ack);
 

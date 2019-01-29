@@ -11,11 +11,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-public class tcpServer {
+public class tcpServerHang {
 
     private ServerSocket server;
 
-    public tcpServer(String ipAddress) throws Exception {
+    public tcpServerHang(String ipAddress) throws Exception {
         if (ipAddress != null && !ipAddress.isEmpty()) {
             this.server = new ServerSocket(0, 1, InetAddress.getByName(ipAddress));
         } else {
@@ -25,13 +25,13 @@ public class tcpServer {
 
     private void listen() throws Exception {
         try {
-            Socket client = server.accept();
-            String clientAddress = client.getInetAddress().getHostAddress();
-            System.out.println("\r\nNew connection from " + clientAddress);
+            while (true) {
+                Socket client = server.accept();
+                String clientAddress = client.getInetAddress().getHostAddress();
+                System.out.println("\r\nNew connection from " + clientAddress);
 
-            PrintWriter toClient = new PrintWriter(client.getOutputStream(), true);
-            BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            for (int i = 0; i < 100; i++) {
+                PrintWriter toClient = new PrintWriter(client.getOutputStream(), true);
+                BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 String data = fromClient.readLine();
                 toClient.println("ack");
                 toClient.flush();
@@ -52,11 +52,11 @@ public class tcpServer {
     }
 
     public static void main(String[] args) throws Exception {
-        tcpServer app = null;
+        tcpServerHang app = null;
         if (args.length == 0) {
-            app = new tcpServer(null);
+            app = new tcpServerHang(null);
         } else {
-            app = new tcpServer(args[0]);
+            app = new tcpServerHang(args[0]);
         }
 
         System.out.println(
