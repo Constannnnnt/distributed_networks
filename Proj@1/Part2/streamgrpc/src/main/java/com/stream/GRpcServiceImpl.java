@@ -24,7 +24,7 @@ public class GRpcServiceImpl extends GRpcServiceGrpc.GRpcServiceImplBase {
             @Override
             public void onCompleted() {
                 long seconds = NANOSECONDS.toSeconds(System.nanoTime() - startTime);
-                String ret = "Received " + Integer.toString(result) + "chunks of 10MB data, Acks!";
+                String ret = "Received " + Integer.toString(result) + "times of 10MB data, Acks!";
                 responseObserver.onNext(DataResponse.newBuilder().setAck(ret).setElapsed((int) seconds).build());
                 responseObserver.onCompleted();
             }

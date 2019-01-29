@@ -59,12 +59,12 @@ public class GRpcClient {
 
         float[] time = new float[100];
         float totaltime = 0;
-        int size = 10;
+        int size = 100;
         StreamObserver<DataResponse> responseObserver = new StreamObserver<DataResponse>() {
             @Override
             public void onNext(DataResponse response) {
                 System.out.println(response.getAck());
-                System.out.println(response.getElapsed());
+                System.out.println("Run 100 experiemtns " + Integer.toString(response.getElapsed()) + " seconds");
             }
 
             public void onError(Throwable t) {
