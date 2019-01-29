@@ -71,11 +71,8 @@ public class tcpClient {
                 long start = System.nanoTime();
 
                 toServer.println(new String(data));
-                if (fromServer.ready()) {
-                    String ack = fromServer.readLine();
-                    System.out.println("FROM SERVER: " + ack);
-                }
-
+                String ack = fromServer.readLine();
+                System.out.println("FROM SERVER: " + ack);
 
                 long end = System.nanoTime();
                 float duration = end - start;

@@ -47,20 +47,18 @@ public class tcpServer {
         //     out.flush();
         // }
         try {
-            while (true) {
                 Socket client = server.accept();
                 String clientAddress = client.getInetAddress().getHostAddress();
                 System.out.println("\r\nNew connection from " + clientAddress);
 
                 PrintWriter toClient = new PrintWriter(client.getOutputStream(), true);
                 BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                if (fromClient.ready()){
+                for (int i = 0; i < 100; i++) {
                     String data = fromClient.readLine();
                     System.out.println("FROM CLIENT: " + data);
+                    toClient.println("ack");
+                    toClient.flush();
                 }
-                toClient.println("ack");
-                toClient.flush();
-            }
         } catch (UnknownHostException ex) {
             ex.printStackTrace();
         } catch (IOException e) {
