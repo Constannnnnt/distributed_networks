@@ -54,7 +54,7 @@ public class tcpServer {
                 PrintWriter toClient = new PrintWriter(client.getOutputStream(), true);
                 BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 for (int i = 0; i < 100; i++) {
-                    String data = fromClient.readLine();
+                    int data = fromClient.read();
                     System.out.println("FROM CLIENT: " + data);
                     toClient.println("ack");
                     toClient.flush();
