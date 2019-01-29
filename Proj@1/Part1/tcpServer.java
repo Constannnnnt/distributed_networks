@@ -54,9 +54,10 @@ public class tcpServer {
 
                 PrintWriter toClient = new PrintWriter(client.getOutputStream(), true);
                 BufferedReader fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                String line = fromClient.readLine();
-                System.out.println("FROM CLIENT: " + line);
+                String data = fromClient.readLine();
+                System.out.println("FROM CLIENT: " + data);
                 toClient.println("ack");
+                toClient.flush();
             }
         } catch (UnknownHostException ex) {
             ex.printStackTrace();
