@@ -22,7 +22,7 @@ public class GRpcServer {
     private void start() throws IOException {
         /* The port on which the server should run */
         int port = 50051;
-        server = NettyServerBuilder.forAddress(new InetSocketAddress(InetAddress.getLocalHost(), port)).addService(new GRpcServiceImpl()).build().start();
+        server = NettyServerBuilder.forAddress(new InetSocketAddress(InetAddress.getLocalHost(), port)).maxInboundMessageSize(12 * 1024 * 1024).addService(new GRpcServiceImpl()).build().start();
 
         logger.info("Server started, listening on " + InetAddress.getLocalHost() + " at port " + port);
 

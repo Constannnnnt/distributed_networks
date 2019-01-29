@@ -24,7 +24,7 @@ public class GRpcClient {
 
     /** Construct client connecting to gRPC server at {@code host:port}. */
     public GRpcClient(String ipAddress, int port) {
-        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(ipAddress, port).usePlaintext(true);
+        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(ipAddress, port).usePlaintext(true).maxInboundMessageSize(12 * 1024 * 1024);
         System.out.println("Connecting to " + ipAddress + " at port " + port);
         channel = channelBuilder.build();
         blockingStub = GRpcServiceGrpc.newBlockingStub(channel);
@@ -71,11 +71,11 @@ public class GRpcClient {
             // byte[] data = {0x01};
             // client.sendData(data);
             int size = 100;
-            byte[] data = {0x01};
-            // byte[] data = new byte[10 * 1024 * 1024];
-            // for (int i = 0; i < 10 * 1024 * 1024; i++) {
-            //     data[i] = 0x01;
-            // }
+            // byte[] data = {0x01};
+            byte[] data = new byte[10 * 1024 * 1024];
+            for (int i = 0; i < 10 * 1024 * 1024; i++) {
+                data[i] = 0x01;
+            }
             for (int i = 0; i < size; i++) {
                 String stringData = new String(data);
                 System.out.println(" [x] Sending Data");
