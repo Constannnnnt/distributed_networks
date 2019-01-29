@@ -27,7 +27,8 @@ public class GRpcClient {
 
     /** Construct client connecting to gRPC server at {@code host:port}. */
     public GRpcClient(String ipAddress, int port) {
-        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(ipAddress, port).usePlaintext(true);
+        ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder.forAddress(ipAddress, port).usePlaintext(true)
+                .maxInboundMessageSize(12 * 1024 * 1024);
         System.out.println("Connecting to " + ipAddress + " at port " + port);
         channel = channelBuilder.build();
         stub = GRpcServiceGrpc.newStub(channel);
@@ -37,11 +38,26 @@ public class GRpcClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
+    public float[] doInsertionSort(float[] input) {
+        float temp;
+        for (int i = 1; i < input.length; i++) {
+            for (int j = i; j > 0; j--) {
+                if (input[j] < input[j - 1]) {
+                    temp = input[j];
+                    input[j] = input[j - 1];
+                    input[j - 1] = temp;
+                }
+            }
+        }
+        return input;
+    }
+
 
     public void sendData(byte[] data) {
 
         final CountDownLatch latch = new CountDownLatch(1);
-
+        float[] time = new float[100];
+        float totaltime = 0;
         StreamObserver<DataResponse> responseObserver = new StreamObserver<DataResponse>() {
             @Override
             public void onNext(DataResponse response) {
@@ -60,13 +76,22 @@ public class GRpcClient {
             }
         };
 
+
         StreamObserver<DataRequest> requestObserver = stub.sendData(responseObserver);
         try {
             ByteString byteData = null;
             byteData = ByteString.copyFrom(data);
             DataRequest request = DataRequest.newBuilder().setData(byteData).build();
             for (int i = 0; i < 100; i++) {
+                System.out.println(" [x] Sending " + Integer.toString(i) + "Data");
+                long start = System.nanoTime();
+
                 requestObserver.onNext(request);
+
+                long end = System.nanoTime();
+                float duration = end - start;
+                time[i] = duration / 1000000000;
+                totaltime += duration / 1000000000;
             }
             if (latch.getCount() == 0) {
                 // RPC completed or errored before we finished sending.
@@ -78,20 +103,20 @@ public class GRpcClient {
             throw r;
         }
 
+        System.out.println("Average Time: " + (totaltime / 100) + "seconds");
+        float[] sortedTime = doInsertionSort(time);
+        System.out.println("10th Percentile: " + sortedTime[9] + "seconds");
+        System.out.println("90th Percentile: " + sortedTime[89] + "seconds");
+
         requestObserver.onCompleted();
 
-        // for (byte d : data) {
-        //     ByteString message = ByteString.copyFrom(data);
-        //     DataRequest request = DataRequest.newBuilder().setData(message).build();
-        //     requestStreamObserver.onNext(DataRequest.newBuilder().sendData(request).build());
-        // }
 
     }
 
     public static void main(String[] args) throws Exception, IOException {
         GRpcClient client = new GRpcClient(args[0], 50051);
-        byte[] data = new byte[100000];
-        for (int i = 0; i < 100000; i++) {
+        byte[] data = new byte[10 * 1024 * 1024];
+        for (int i = 0; i < 10 * 1024 * 1024; i++) {
             data[i] = 0x01;
         }
         client.sendData(data);
