@@ -10,6 +10,7 @@ message DataRequest {
 
 message DataResponse {
     string ack = 1;
+    int32 elapsed = 2;
 }
 
 // Defining a Service, a Service can have multiple RPC operations
